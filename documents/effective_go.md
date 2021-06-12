@@ -228,3 +228,113 @@ case *int:
 
 ### 複数の戻り値
 
+```go
+func nextInt(b []byte, i int) (int, int) {
+    for ; i < len(b) && !isDigit(b[i]); i++ {
+    }
+    x := 0
+    for ; i < len(b) && isDigit(b[i]); i++ {
+        x = x*10 + int(b[i]) - '0'
+    }
+    return x, i
+}
+
+func main() {
+    for i:=0; i < len(b); {
+        x, i = nextInt(b, i)
+        fmt.Println(x)
+    }
+}
+```
+
+### Defer
+
+- 遅延実行
+- その関数の最後に実行される
+- .Close()などで使用
+
+```go
+func Contents(filename string) (string, error) {
+    f, err := os.Open(filename)
+    if err != nil {
+        return "", err
+    }
+    defer f.Close()
+
+    var result []byte
+    buf := make([]byte, 100)
+    for {
+        n, err := f.Read(buf[0:])
+        result append(result, buf[0:n]...)
+        if err != nil {
+            if err == io.EOF {
+                break
+            }
+            return "", err
+        }
+    }
+    return string(result), nil
+}
+```
+
+## Data
+
+### new
+
+```go
+type SyncedBuffer struct {
+    lock    sync.Mutex
+    buffer  bytes.Buffer
+}
+
+p := new(SyncedBuffer)   // type *SyncedBuffer
+ver v SyncedBuffer       // type SyncedBuffer
+```
+
+### コンストラクタ、複合リテラル
+
+```go
+func NewFile(fd int, name string) *File {
+    if fd < 0 {
+        return nil
+    }
+    f := File{fd, name, nil, 0}
+    return &f
+}
+```
+
+### make
+
+```go
+var p *[]int = new([]int)
+var v []int  = make([]int, 100)
+```
+
+#### makeとnewの違い
+
+|        |            new(T)            |         make(T)         |
+| :----: | :--------------------------: | :---------------------: |
+|  対象  |           任意の型           | slice, map, channelのみ |
+| 初期化 | 初期化しない（ゼロ値になる） |       初期化する        |
+| 戻り値 |              *T              |            T            |
+
+### Arrays
+
+- CとGoの違い
+  - 配列は値。ある配列を別の配列に割り当てるとすべてての要素がコピーされます。
+  - 配列を関数に渡すと配列へのポインタでなく、配列のコピーを受け取ります。
+  - 配列のサイズはその型の一部です。`[10]int`と`[20]int`は異なります。
+
+```go
+func Sum(a *[3]float64) (sum float64) {
+    for _, v := range *a {
+        sum += v
+    }
+    return
+}
+```
+
+### Slices
+
+- 配列の参照を保持
+- いわゆる可変長配列
