@@ -652,5 +652,3 @@ go func() {
 ### 並列化
 
 [parallelization.go](../examples/parallelization.go)
-
-## Errors
