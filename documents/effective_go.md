@@ -334,7 +334,103 @@ func Sum(a *[3]float64) (sum float64) {
 }
 ```
 
-### Slices
+### Slice
 
 - 配列の参照を保持
 - いわゆる可変長配列
+
+```go
+var hoge []string
+```
+
+### 2次元slice
+
+```go
+type Transform [3][3]float64
+type LinesOfText [][]byte
+
+text := LinesOfText {
+    []byte("New iss the time"),
+    []byte("for all good gophers"),
+    []byte("to bring some fun to the party.")
+}
+```
+
+```go
+picture := make([][]uint8, YSize)
+for i := range picture {
+    picture[i] = make([]uint8, XSize)
+}
+```
+
+### Map
+
+- key-valueタイプのデータ構造
+
+```go
+var timeZone = map[string]int {
+    "UTC": 0*60*60,
+    "EST": -5*60*60,
+    "CST": -6*60*60,
+    "MST": -7*60*60,
+    "PST": -8*60*60,
+}
+
+offset := timeZone["EST"]
+```
+
+- keyが存在しない場合は0が返される
+
+```go
+attended := map[string]bool {
+    "Ann": true,
+    "Joe": true,
+    ...
+}
+
+if attended[person] {
+    fmt.Plintln(person, "was at the meeting")
+}
+```
+
+```go
+var seconds int
+var ok bool
+seconds, ok = timeZone[tz]
+```
+
+```go
+func offset(tz, string) int {
+    if seconds, of := timeZone[tz]; ok {
+        return seconds
+    }
+    log.Println("unknown time zone:", tz)
+    return 0
+}
+```
+
+- mapの存在確認
+
+```go
+_, present := timeZone[tz]
+```
+
+- mapの要素の削除
+
+```go
+delete(timeZone, "PDT")
+```
+
+### Print
+
+```go
+fmt.Printf("Hello%d\n", 23)
+fmt.Fprint(os.Stdout, "Hello ", 23, "\n")
+fmt.Println("Hello", 23)
+fmt.Println(fmt.Sprint("Hello ", 23))
+```
+
+```go
+var x uint64 = 1<<64 - 1
+fmt.Printf("%d %x; %d %x\n", x, x, int64(x), int64(x))
+```
