@@ -453,3 +453,36 @@ fmt.Println(x)
 ```
 
 ## 初期化
+
+### 定数
+
+- iotaを使用することで、連番からなる定数を定義可能
+
+```go
+const (
+    _ = iota    // 0
+    FAST        // 1
+    NORMAL      // 2
+    SLOW        // 3
+)
+```
+
+```go
+type BeteSize float64
+
+const (
+    _ = iota
+    KB ByteSize = 1 << (10 * iota)
+    MB
+    GB
+    TB
+    PB
+    EB
+    ZB
+    YB
+)
+
+```
+
+### 変数
+
