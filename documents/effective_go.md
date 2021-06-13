@@ -565,3 +565,92 @@ func main() {
 ```go
 import _ "net/http/pprof"
 ```
+
+## Embedding
+
+- Goはサブクラスの概念がないが、インターフェイスないいにタイプを埋め込むことで実装の一部を借用することができる
+
+```go
+type Reader interface {
+    Read(p []byte) (n int, err error)
+}
+
+type Writer interface {
+    Write(p []byte) (n int, err error)
+}
+
+type ReadWriter interface {
+    Reader
+    Writer
+}
+
+type ReadWriter struct {
+    reader *Reader
+    writer *Witer
+}
+```
+
+## 平行性
+
+### 平行性での共有
+
+- メモリを共有して通信してはいけない。通信してメモリを共有する。
+
+### Goroutines
+
+- Goroutines
+  - スレッド
+  - コルーチン
+  - プロセス
+- メソッドの呼び出し前に`go`キーワードをつけて、新しいゴルーチンを呼び出し実行する。
+- 呼び出しが完了するとゴルーチンはサイレント終了します。
+
+```go
+go list.Sort()
+```
+
+```go
+package main
+
+import (
+    "fmt"
+    "time"
+)
+
+func printer(text string) {
+    for i := 0; 100 > i; i++ {
+        fmt.Printf("%s: %d\n", text, i)
+        time.Sleep(100 * time.Microsecond)
+    }
+
+    fmt.Printf("End %s\n", text)
+}
+
+func main() {
+    go printer("Hello")
+    printer("world")
+}
+
+```
+
+### Channels
+
+- ゴルーチンと通信する
+
+```go
+c := make(chan int) // channelの割当
+
+go func() {
+    list.Sort()
+    c <- 1 // Send a signal
+
+    doSomethingForAWhile()
+    <-c // list.Sort()が終わるまで待つ
+}
+```
+
+### 並列化
+
+[parallelization.go](../examples/parallelization.go)
+
+## Errors
