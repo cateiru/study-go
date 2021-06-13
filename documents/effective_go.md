@@ -434,3 +434,22 @@ fmt.Println(fmt.Sprint("Hello ", 23))
 var x uint64 = 1<<64 - 1
 fmt.Printf("%d %x; %d %x\n", x, x, int64(x), int64(x))
 ```
+
+## Append
+
+```go
+x := []int{1, 2, 3}
+x = append(x, 4, 5, 6)
+fmt.Println(x) // [1, 2, 3, 4, 5, 6]
+```
+
+- 配列x配列
+
+```go
+x := []int{1, 2, 3}
+y := []int{4, 5, 6}
+x = append(x, y...)
+fmt.Println(x)
+```
+
+## 初期化
