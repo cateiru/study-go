@@ -486,3 +486,20 @@ const (
 
 ### 変数
 
+```go
+var (
+    home = os.Getenv("HOME")
+    user = os.Getenv("USER")
+    gopath = os.Getenv("GOPATH")
+)
+```
+
+### 関数の初期化
+
+- init関数はmainの前に実行される
+
+```go
+func init() {
+
+}
+```
