@@ -503,3 +503,65 @@ func init() {
 
 }
 ```
+
+## メソッド
+
+### ポインタvs値
+
+```go
+type ByteSlice []byte
+
+func (slice ByteSlice) Append(data []byte) []byte {
+    //...
+}
+```
+
+## 空白の識別子
+
+### The blank identifier in multiple assignment
+
+```go
+if _, err := os.Stat(path); os.IsNotExist(err) {
+    fmt.Printf("%s dose not exist\n", path)
+}
+
+// Bad
+fi, _ := os.Stat(path)
+if fi.IsDir() {
+    fmt.Printf("%s is a directory\n", path)
+}
+```
+
+### 未使用のimport
+
+- 未使用のimportはエラー
+- エラーを回避
+
+```go
+package main
+
+import (
+    "fmt"
+    "io"
+    "log"
+    "os"
+)
+
+var _ = fmt.Printf // For debugging; delete when done.
+var _ io.Reader // For debugging; delete when done.
+
+func main() {
+    fd, err := os.Open("test.go")
+    if err != nil {
+        log.Fatal(err)
+    }
+    // TODO: use fd.
+    _ = fd
+}
+```
+
+### 副作用のインポート
+
+```go
+import _ "net/http/pprof"
+```
